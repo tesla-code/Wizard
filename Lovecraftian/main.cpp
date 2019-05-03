@@ -290,7 +290,9 @@ int main()
 
 	// Load Height Map
 	Terrain heightMap;
-	heightMap.loadHeightMap("res/map/model2-low.png", png);
+	heightMap.loadHeightMap("res/map/map1.png", png);
+	// heightMap.loadHeightMap("res/map/model2-low.png", png);
+	heightMap.renderMap();
 
 	// MAIN LOOP
 	while (!glfwWindowShouldClose(window))

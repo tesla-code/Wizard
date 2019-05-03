@@ -45,11 +45,24 @@ void Terrain::loadHeightMap(std::string filePath, ImageType imageType)
 
 void Terrain::scanHeightMap()
 {
-	unsigned long i;
 	unsigned char tmp_min, tmp_max;
 
 	tmp_min = 255;
 	tmp_max = 0;
+
+	std::vector<float> tmp;
+	// Loop over all rgb values inn the image
+	int counter = 0;
+	for (int i = 0; i < this->terrainImageHeight; i++)
+	{
+		for (int j = 0; j < this->terrainImageWidth; j++)
+		{
+			tmp.push_back((float)data[counter++] / 255.0f); // normalize to 0, 1
+		}
+
+		heights.push_back(tmp);
+	}
+
 
 	// Loop over all rgb values inn the image
 	for (int i = 0; i < this->size; i++)
@@ -62,14 +75,43 @@ void Terrain::scanHeightMap()
 		{
 			tmp_max = this->data[i];
 		}
+	
 	}
 
 	this->min = tmp_min;		// min 41
 	this->max = tmp_max;		// max 255
 	this->range = max - min;	// 204
 
+	fprintf(stderr, "img Width: %u\n", this->terrainImageWidth);
+	fprintf(stderr, "img Height: %u\n", this->terrainImageHeight);
+	fprintf(stderr, "img size: %u\n", this->size);
+
+	fprintf(stderr, "Min: %u\n", this->min);
+	fprintf(stderr, "Max: %u\n", this->max);
+	fprintf(stderr, "Range: %u\n", this->range);
+
 }
 
+
+void Terrain::renderMap()
+{
+	std::cout << "Render map " << std::endl;
+	for (int i = 0; i < heights.size() - 1; i++)
+	{
+		for (int j = 0; j < heights[0].size(); j++)
+		{
+			// Vertex Postion
+			printf("%f\n", heights[i][j]);
+		}
+	}
+
+
+	/*
+	for (int i = 0; i < this->size; i++)
+	{
+		data[i];
+	} */
+}
 
 void Terrain::bind() const
 {

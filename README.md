@@ -1,6 +1,6 @@
 # Wizard
 
-# Libs
+## Libs
 GLM
 GLFW
 GLEW

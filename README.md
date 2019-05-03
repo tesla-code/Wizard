@@ -1,6 +1,6 @@
 # Wizard
 
-<h1> libs <h1>
+<h1> libs </h1>
 GLM
 GLFW
 GLEW

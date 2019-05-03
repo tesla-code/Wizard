@@ -276,17 +276,22 @@ int main()
 	Texture texture0("res/images/cat.png", png);
 	Texture texture1("res/images/box.png", png);
 
-	/*
+	
 	// Matrix Movement, Rotation, Scaling
 	glm::mat4 Modelmatrix(1.f);
-	Modelmatrix = glm::translate(Modelmatrix, glm::vec3(0.f));								
+	Modelmatrix = glm::translate(Modelmatrix, glm::vec3(0.f, 0.f, 0.f));								
 	Modelmatrix = glm::rotate(Modelmatrix,    glm::radians(0.f), glm::vec3(1.f, 0.f, 0.f)); // x axis to rotate
 	Modelmatrix = glm::rotate(Modelmatrix,	  glm::radians(0.f), glm::vec3(0.f, 1.f, 0.f)); // y axis to rotate
 	Modelmatrix = glm::rotate(Modelmatrix,	  glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f)); // z axis to rotate
-	Modelmatrix = glm::scale(Modelmatrix,	  glm::vec3(1.f)); */
+	Modelmatrix = glm::scale(Modelmatrix,	  glm::vec3(1.f)); 
 
+	glUseProgram(core_program); // we wanna send this in every time
 
-	// 6 min
+	// Update uniforms
+	glUniformMatrix4fv(glGetUniformLocation(core_program, "ModelMatrix"), 1, GL_FALSE,
+		glm::value_ptr(Modelmatrix));
+
+	glUseProgram(0);
 
 	// Load Height Map
 	Terrain heightMap;
@@ -313,13 +318,23 @@ int main()
 		glUseProgram(core_program);
 
 		// update uniforms
-		//glUniform1i(glGetUniformLocation(core_program, "texture0"), 0);
-		//glUniform1i(glGetUniformLocation(core_program, "texture1"), 1);
+		glUniform1i(glGetUniformLocation(core_program, "texture0"), 0);
+		glUniform1i(glGetUniformLocation(core_program, "texture1"), 1);
+
+		// Move, Rotate and Scale
+		Modelmatrix = glm::translate(Modelmatrix, glm::vec3(0.f, 0.f, 0.f));
+		Modelmatrix = glm::rotate(Modelmatrix, glm::radians(0.f), glm::vec3(1.f, 0.f, 0.f)); // x axis to rotate
+		Modelmatrix = glm::rotate(Modelmatrix, glm::radians(0.f), glm::vec3(0.f, 1.f, 0.f)); // y axis to rotate
+		Modelmatrix = glm::rotate(Modelmatrix, glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f)); // z axis to rotate
+		Modelmatrix = glm::scale(Modelmatrix, glm::vec3(1.f));
+
+		glUniformMatrix4fv(glGetUniformLocation(core_program, "ModelMatrix"), 1, GL_FALSE, glm::value_ptr(Modelmatrix));
 
 		// Activate Texture
 		glActiveTexture(GL_TEXTURE0);
 		texture0.bind(); // instead of  glBindTexture(GL_TEXTURE_2D, texture0);
-		heightMap.bind();
+		
+		//heightMap.bind();
 
 		glActiveTexture(GL_TEXTURE1);
 		texture1.bind();

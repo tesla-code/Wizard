@@ -283,6 +283,9 @@ int main()
 	Modelmatrix = glm::rotate(Modelmatrix,	  glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f)); // z axis to rotate
 	Modelmatrix = glm::scale(Modelmatrix,	  glm::vec3(1.f));
 
+
+	// 6 min
+
 	// MAIN LOOP
 	while (!glfwWindowShouldClose(window))
 	{

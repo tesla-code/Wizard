@@ -46,6 +46,7 @@ bool firstMouse = true;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
+bool DrawLines = false;
 
 int main()
 {
@@ -204,6 +205,10 @@ int main()
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 
+	// Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+
+
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
 
@@ -231,7 +236,9 @@ int main()
 	// GL_LINE_STRIP_STUFF
 	// Shader to render map floor
 	Shader lineShader("vert_ground.glsl", "frag_ground.glsl");
-	
+	Texture groundTexture("res/map/ground.png", png);
+
+
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
@@ -266,6 +273,15 @@ int main()
 			//ImGui::Checkbox("Another Window", &show_another_window);
 			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		
+			if (ImGui::Button("Draw Lines"))
+			{
+				DrawLines = !DrawLines;
+				if (DrawLines)
+				{
+					glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+				}
+			}
+
 			ImGui::SameLine();
 			ImGui::End();
 		}
@@ -287,12 +303,12 @@ int main()
 		groundShader.use();
 		groundShader.setMat4("projection", projection);
 		groundShader.setMat4("view", view);
-
-		// DRAW FLOOR
+	
+		// DRAW FLOOR (Basicly clouds now)
 		for (int i = 0; i < numGround; i++)
 		{
 			// floor.renderOnScreen(groundShader);
-
+			glActiveTexture(GL_TEXTURE0);
 			floor.render(groundShader, trianglePos, heightMap);
 
 		/*	groundShader.use();
@@ -304,7 +320,7 @@ int main()
 		lineShader.setMat4("projection", projection);
 		lineShader.setMat4("view", view);
 
-		floor.renderWithLineStrip(lineShader);
+		floor.renderWithLineStrip(lineShader, groundTexture.getID());
 
 		
 		// bind textures on corresponding texture units

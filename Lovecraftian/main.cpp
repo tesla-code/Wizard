@@ -192,6 +192,7 @@ int main()
 
 	int  numGround = 1;
 	Floor floor;
+	floor.initFloor(heightMap);
 
 	// imgui
 	// --------
@@ -230,7 +231,7 @@ int main()
 	// GL_LINE_STRIP_STUFF
 	// Shader to render map floor
 	Shader lineShader("vert_ground.glsl", "frag_ground.glsl");
-
+	
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
@@ -429,8 +430,6 @@ void scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
 {
 	camera.ProcessMouseScroll(yoffset);
 }
-
-
 
 
 unsigned int loadCubemap(std::vector<std::string> faces)

@@ -46,6 +46,7 @@ bool firstMouse = true;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
+
 int main()
 {
 	// glfw: initialize and configure
@@ -61,7 +62,7 @@ int main()
 
 	// glfw window creation
 	// --------------------
-	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Exam", NULL, NULL);
 	if (window == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -179,7 +180,7 @@ int main()
 	// Height Map
 	// Load Height Map
 	Terrain* heightMap = new Terrain();
-	heightMap->loadHeightMap("res/map/map1.png", png);
+	heightMap->loadHeightMap("res/map/test.png", png);
 	// heightMap.loadHeightMap("res/map/model2-low.png", png);
 	heightMap->renderMap();
 
@@ -215,6 +216,21 @@ int main()
 
 	glm::vec3 trianglePos(1.0f, 1.0f, 1.0f);
 
+	// Display map in grid
+	for (int i = 0; i < heightMap->getMapHeight(); i++)
+	{
+
+		for (int j = 0; j < heightMap->getMapWidth(); j++)
+		{
+			std::cout << "[" << i << "]" << "[" << j << "]" << " = " << heightMap->getHeight(i, j);
+		}
+		std::cout << std::endl;
+	}
+
+	// GL_LINE_STRIP_STUFF
+	// Shader to render map floor
+	Shader lineShader("vert_ground.glsl", "frag_ground.glsl");
+
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
@@ -235,7 +251,6 @@ int main()
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-
 
 		// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
 		{
@@ -279,11 +294,17 @@ int main()
 
 			floor.render(groundShader, trianglePos, heightMap);
 
-
 		/*	groundShader.use();
 			glBindVertexArray(VAO_ground);
 			glDrawArrays(GL_TRIANGLES, 0, 3);*/
 		}
+
+		lineShader.use();
+		lineShader.setMat4("projection", projection);
+		lineShader.setMat4("view", view);
+
+		floor.renderWithLineStrip(lineShader);
+
 		
 		// bind textures on corresponding texture units
 		glActiveTexture(GL_TEXTURE0);

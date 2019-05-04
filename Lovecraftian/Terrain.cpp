@@ -55,11 +55,11 @@ void Terrain::scanHeightMap()
 	int counter = 0;
 	for (int i = 0; i < this->terrainImageHeight; i++)
 	{
+		tmp.clear();
 		for (int j = 0; j < this->terrainImageWidth; j++)
 		{
 			tmp.push_back((float)data[counter++] / 255.0f); // normalize to 0, 1
 		}
-
 		heights.push_back(tmp);
 	}
 
@@ -75,7 +75,6 @@ void Terrain::scanHeightMap()
 		{
 			tmp_max = this->data[i];
 		}
-	
 	}
 
 	this->min = tmp_min;		// min 41
@@ -91,7 +90,6 @@ void Terrain::scanHeightMap()
 	fprintf(stderr, "Range: %u\n", this->range);
 
 }
-
 
 void Terrain::renderMap()
 {

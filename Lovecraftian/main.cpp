@@ -178,10 +178,10 @@ int main()
 
 	// Height Map
 	// Load Height Map
-	Terrain heightMap;
-	heightMap.loadHeightMap("res/map/map1.png", png);
+	Terrain* heightMap = new Terrain();
+	heightMap->loadHeightMap("res/map/map1.png", png);
 	// heightMap.loadHeightMap("res/map/model2-low.png", png);
-	heightMap.renderMap();
+	heightMap->renderMap();
 
 	// make skybox
 	Skybox* skybox = new Skybox();
@@ -213,6 +213,7 @@ int main()
 	// bool show_another_window = false;
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
+	glm::vec3 trianglePos(1.0f, 1.0f, 1.0f);
 
 	// render loop
 	// -----------
@@ -239,23 +240,17 @@ int main()
 		// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
 		{
 			static float f = 0.0f;
-			static int counter = 0;
 
-			ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+			ImGui::Begin("Info", 0, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
+				ImGuiWindowFlags_NoCollapse |
+				ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoTitleBar);                    // Create a window called "Hello, world!" and append into it.
 
-			ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+			ImGui::Text("Terrain.");               // Display some text (you can use a format strings too)
 			//ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
 			//ImGui::Checkbox("Another Window", &show_another_window);
-
-			ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-			ImGui::ColorEdit3("clear color", (float*)& clear_color); // Edit 3 floats representing a color
-
-			if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-				counter++;
-			ImGui::SameLine();
-			ImGui::Text("counter = %d", counter);
-
 			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		
+			ImGui::SameLine();
 			ImGui::End();
 		}
 
@@ -269,10 +264,22 @@ int main()
 
 		// draw triangle 
 		// ------  (MAP)
+		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		glm::mat4 view = camera.GetViewMatrix();
 
+		// set value in shaders
+		groundShader.use();
+		groundShader.setMat4("projection", projection);
+		groundShader.setMat4("view", view);
+
+		// DRAW FLOOR
 		for (int i = 0; i < numGround; i++)
 		{
-			floor.render(groundShader);
+			// floor.renderOnScreen(groundShader);
+
+			floor.render(groundShader, trianglePos, heightMap);
+
+
 		/*	groundShader.use();
 			glBindVertexArray(VAO_ground);
 			glDrawArrays(GL_TRIANGLES, 0, 3);*/
@@ -288,16 +295,17 @@ int main()
 		ourShader.use();
 
 		// pass projection matrix to shader (note that in this case it could change every frame)
-		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		ourShader.setMat4("projection", projection);
-
+	
 		// camera/view transformation
-		glm::mat4 view = camera.GetViewMatrix();
+		view = camera.GetViewMatrix();
 		ourShader.setMat4("view", view);
+	
 
 		// render boxes
 		glBindVertexArray(VAO);
-		for (unsigned int i = 0; i < 10; i++)
+		for (unsigned int i = 0; i < 7; i++)
 		{
 			// calculate the model matrix for each object and pass it to shader before drawing
 			glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
@@ -307,14 +315,13 @@ int main()
 			ourShader.setMat4("model", model);
 
 			glDrawArrays(GL_TRIANGLES, 0, 36);
-		}
+		} 
 
 		// Trying to draw skybox
 		// draw scene as normal
 		glm::mat4 modelSky = glm::mat4(1.0f);
 		glm::mat4 viewSky = camera.GetViewMatrix();
 		glm::mat4 projectionSky = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-
 
 		// draw skybox as last
 		glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content

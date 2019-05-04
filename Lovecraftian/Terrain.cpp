@@ -10,7 +10,7 @@ void Terrain::loadHeightMap(std::string filePath, ImageType imageType)
 	int image_width = 0;
 	int image_height = 0;
 	int bpp;
-	int nrChannels = 4; // STBI_rgb_alpha is 4
+	int nrChannels = 1; // STBI_rgb_alpha is 4
 	data = stbi_load(filePath.c_str(), &image_width, &image_height, &bpp, nrChannels);
 
 	// width and height of terrain
@@ -124,8 +124,22 @@ void Terrain::unbind()
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-
 int Terrain::getID()
 {
 	return mapID;
+}
+
+float Terrain::getHeight(int x, int y)
+{
+	return heights[x][y];
+}
+
+int Terrain::getMapWidth()
+{
+	return terrainImageWidth;
+}
+
+int Terrain::getMapHeight()
+{
+	return terrainImageHeight;
 }

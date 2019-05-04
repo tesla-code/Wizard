@@ -33,4 +33,7 @@ public:
 	void bind() const;
 	void unbind();
 	int getID();
+	float getHeight(int x, int y);
+	int getMapWidth();
+	int getMapHeight();
 };

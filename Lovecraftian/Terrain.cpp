@@ -91,25 +91,12 @@ void Terrain::scanHeightMap()
 
 }
 
+
 void Terrain::renderMap()
 {
-	std::cout << "Render map " << std::endl;
-	for (int i = 0; i < heights.size() - 1; i++)
-	{
-		for (int j = 0; j < heights[0].size(); j++)
-		{
-			// Vertex Postion
-			printf("%f\n", heights[i][j]);
-		}
-	}
 
-
-	/*
-	for (int i = 0; i < this->size; i++)
-	{
-		data[i];
-	} */
 }
+
 
 void Terrain::bind() const
 {

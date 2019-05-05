@@ -11,7 +11,7 @@
 
 // my stuff
 #include "Terrain.h"
-#include "Texture.h"
+#include "ImageTexture.h"
 #include "Skybox.h"
 #include "Floor.h"
 
@@ -26,6 +26,9 @@
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 #include <stdio.h>
+
+
+#include "Model.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -169,8 +172,8 @@ int main()
 	// load and create a texture 
 	// -------------------------
 	stbi_set_flip_vertically_on_load(true);
-	Texture texture1("res/images/box.png", png);
-	Texture texture2("res/images/cat.png", png);
+	ImageTexture texture1("res/images/box.png", png);
+	ImageTexture texture2("res/images/cat.png", png);
 
 	// tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
 	// -------------------------------------------------------------------------------------------
@@ -181,8 +184,8 @@ int main()
 	// Height Map
 	// Load Height Map
 	Terrain* heightMap = new Terrain();
-	heightMap->loadHeightMap("res/map/test.png", png);
-	// heightMap.loadHeightMap("res/map/model2-low.png", png);
+	//heightMap->loadHeightMap("res/map/test.png", png);
+	heightMap->loadHeightMap("res/map/map1.png", png);
 	heightMap->renderMap();
 
 	// make skybox
@@ -236,8 +239,14 @@ int main()
 	// GL_LINE_STRIP_STUFF
 	// Shader to render map floor
 	Shader lineShader("vert_ground.glsl", "frag_ground.glsl");
-	Texture groundTexture("res/map/ground.png", png);
+	ImageTexture groundTexture("res/map/ground.png", png);
 
+	Model ourModel("resources/objects/nanosuit/nanosuit.obj");
+	Shader objectShader("object.vs", "object.fs");
+
+
+	Model deer("res/model/deer.obj");
+	Shader deerShader("1.model_loading.vs", "1.model_loading.fs");
 
 	// render loop
 	// -----------
@@ -316,12 +325,17 @@ int main()
 			glDrawArrays(GL_TRIANGLES, 0, 3);*/
 		}
 
+		ourModel.Draw(objectShader);
+	
+		deer.Draw(deerShader);
+
 		lineShader.use();
 		lineShader.setMat4("projection", projection);
 		lineShader.setMat4("view", view);
 
 		floor.renderWithLineStrip(lineShader, groundTexture.getID());
 
+	
 		
 		// bind textures on corresponding texture units
 		glActiveTexture(GL_TEXTURE0);

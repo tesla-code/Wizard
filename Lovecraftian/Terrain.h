@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "Texture.h" // for image type enum
+#include "ImageTexture.h" // for image type enum
 
 class Terrain
 {

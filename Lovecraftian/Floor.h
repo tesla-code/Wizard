@@ -10,7 +10,7 @@
 
 #include <limits.h>
 
-#include "Texture.h"
+#include "ImageTexture.h"
 
 // Based on height values use different colors/textures
 enum BIOME
@@ -68,7 +68,8 @@ public:
 
 	// Lets try and draw 15 squares witch is the widht of the map
 	// (15 * 6) + 6 
-	float oneRow[48 + (16 * (MAP_WIDTH-1))];
+	float oneRow[3392]; // 3392
+
 
 
 public:

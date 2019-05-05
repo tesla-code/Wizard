@@ -2,13 +2,7 @@
 
 void Floor::render(Shader groundShader, glm::vec3 I_worldPos, Terrain* heigtmap)
 {
-	/*
-	glm::vec3 worldPos = glm::vec3(0, 0, 0);
-	// world space positions of our ground
-	glm::vec3 floorPositon[] =
-	{
-		worldPos,
-	}; */
+	
 	groundShader.use();
 	glBindVertexArray(VAO_ground);
 
@@ -18,7 +12,7 @@ void Floor::render(Shader groundShader, glm::vec3 I_worldPos, Terrain* heigtmap)
 	{
 		for (int j = 0; j < heigtmap->getMapWidth(); j++) {
 			glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-			model = glm::translate(model, glm::vec3(i, heigtmap->getHeight(i,j), j));
+			model = glm::translate(model, glm::vec3(i, heigtmap->getHeight(i, j), j));
 
 			// float angle = 20.0f * 1;
 			// model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f)); 
@@ -27,7 +21,7 @@ void Floor::render(Shader groundShader, glm::vec3 I_worldPos, Terrain* heigtmap)
 
 			glDrawArrays(GL_TRIANGLES, 0, 6);
 		}
-	} 
+	}
 
 }
 
@@ -46,7 +40,7 @@ void Floor::renderWithLineStrip(Shader i_shader, unsigned int textureID)
 	glBindTexture(GL_TEXTURE_2D, textureID);
 
 	glBindVertexArray(VAO_LineStrip);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0,32);	
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 452);
 }
 
 void Floor::renderOnScreen(Shader groundShader)
@@ -78,133 +72,279 @@ Floor::Floor()
 // calculate all vertices here
 void Floor::initFloor(Terrain* terrain)
 {
-		// BOTTOM LEFT (in an x and z sense)
-		// Postions
-		int counter = 0;
-		oneRow[counter++] = -0.5f;	// x pos
-		oneRow[counter++] =  0.5f;	// y pos
-		oneRow[counter++] = -0.5f;	// z pos
-		
-		// colors
-		oneRow[counter++] = 1.0f,
-		oneRow[counter++] = 0.0f;
-		oneRow[counter++] = 0.0f;
 
-		// Tex Coords
+	int numDrawCalls = 0;
+
+	// BOTTOM LEFT (in an x and z sense)
+	// Postions
+	int counter = 0;
+
+	
+	oneRow[counter++] = -0.5f;	// x pos
+	oneRow[counter++] = 0.5f;	// y pos
+	oneRow[counter++] = -0.5f;	// z pos
+
+	// colors
+	oneRow[counter++] = 1.0f,
+		oneRow[counter++] = 0.0f;
+	oneRow[counter++] = 0.0f;
+
+	// Tex Coords
+	oneRow[counter++] = 1.0f;
+	oneRow[counter++] = 1.0f;
+
+	// BOTTOM RIGHT
+	// Postions
+	oneRow[counter++] = 0.5f;	// x pos
+	oneRow[counter++] = 0.5f;	// y pos
+	oneRow[counter++] = -0.5f;	// z pos
+
+	// colors
+	oneRow[counter++] = 0.0f,
 		oneRow[counter++] = 1.0f;
+	oneRow[counter++] = 0.0f;
+
+	// Tex Coords
+	oneRow[counter++] = 1.0f;
+	oneRow[counter++] = 0.0f;
+
+	// TOP LEFT
+	// Postions
+	oneRow[counter++] = -0.5f;	// x pos
+	oneRow[counter++] = 0.5f;	// y pos
+	oneRow[counter++] = 0.5f;	// z pos
+
+	// colors
+	oneRow[counter++] = 0.0f,
+		oneRow[counter++] = 0.0f;
+	oneRow[counter++] = 1.0f;
+
+	// Tex Coords
+	oneRow[counter++] = 0.0f;
+	oneRow[counter++] = 0.0f;
+
+	// TOP RIGHT
+	// Postions
+	oneRow[counter++] = 0.5f;	// x pos
+	oneRow[counter++] = 0.5f;	// y pos
+	oneRow[counter++] = 0.5f;	// z pos
+
+	// colors
+	oneRow[counter++] = 1.0f,
 		oneRow[counter++] = 1.0f;
+	oneRow[counter++] = 0.0f;
 
-		// BOTTOM RIGHT
-		// Postions
-		oneRow[counter++] =  0.5f;	// x pos
-		oneRow[counter++] =  0.5f;	// y pos
-		oneRow[counter++] = -0.5f;	// z pos
-
-		// colors
-		oneRow[counter++] = 0.0f,
-		oneRow[counter++] = 1.0f;
-		oneRow[counter++] = 0.0f;
-
-		// Tex Coords
-		oneRow[counter++] = 1.0f;
-		oneRow[counter++] = 0.0f;
-
-		// TOP LEFT
-		// Postions
-		oneRow[counter++] = -0.5f;	// x pos
-		oneRow[counter++] = 0.5f;	// y pos
-		oneRow[counter++] = 0.5f;	// z pos
-
-		// colors
-		oneRow[counter++] = 0.0f,
-		oneRow[counter++] = 0.0f;
-		oneRow[counter++] = 1.0f;
-
-		// Tex Coords
-		oneRow[counter++] = 0.0f;
-		oneRow[counter++] = 0.0f;
-
-		// TOP RIGHT
-		// Postions
-		oneRow[counter++] = 0.5f;	// x pos
-		oneRow[counter++] = 0.5f;	// y pos
-		oneRow[counter++] = 0.5f;	// z pos
-
-		// colors
-		oneRow[counter++] = 1.0f,
-		oneRow[counter++] = 1.0f;
-		oneRow[counter++] = 0.0f;
-
-		// Tex Coords
-		oneRow[counter++] = 0.0f;
-		oneRow[counter++] = 1.0f;
+	// Tex Coords
+	oneRow[counter++] = 0.0f;
+	oneRow[counter++] = 1.0f;
 
 
-		for (int j = 0; j < 1; j++)
+	std::cout << " Counter is : " << counter << std::endl;
+
+	numDrawCalls = 4;
+
+	int move = 0;
+	bool up = true;
+
+	int i_WeNeed = 0;
+
+	for (int j = 0; j < MAP_HEIGHT; j++)
+	{
+		up = true;
+		// draw new square
+		if (j % 2 == 1)  // this if is 4 draw calls
+		{
+			up = false;
+
+			numDrawCalls += 4;
+			// BOTTOM LEFT (in an x and z sense)
+			// Postions
+			int counter = 0;
+			oneRow[counter++] = -0.5f;	// x pos
+			oneRow[counter++] = 0.5f;		// y pos
+			oneRow[counter++] = -0.5f + 1;		// z pos
+
+			// colors
+			oneRow[counter++] = 1.0f,
+				oneRow[counter++] = 0.0f;
+			oneRow[counter++] = 0.0f;
+
+			// Tex Coords
+			oneRow[counter++] = 1.0f;
+			oneRow[counter++] = 1.0f;
+
+			// BOTTOM RIGHT 2
+			// Postions
+			oneRow[counter++] = 0.5f;	// x pos
+			oneRow[counter++] = 0.5f;	// y pos
+			oneRow[counter++] = -0.5f + 1;	// z pos
+
+			// colors
+			oneRow[counter++] = 0.0f,
+				oneRow[counter++] = 1.0f;
+			oneRow[counter++] = 0.0f;
+
+			// Tex Coords
+			oneRow[counter++] = 1.0f;
+			oneRow[counter++] = 0.0f;
+
+			// TOP LEFT
+			// Postions
+			oneRow[counter++] = -0.5f;	// x pos
+			oneRow[counter++] = 0.5f;	// y pos
+			oneRow[counter++] = 0.5f + 1;	// z pos
+
+			// colors
+			oneRow[counter++] = 0.0f,
+				oneRow[counter++] = 0.0f;
+			oneRow[counter++] = 1.0f;
+
+			// Tex Coords
+			oneRow[counter++] = 0.0f;
+			oneRow[counter++] = 0.0f;
+
+			// TOP RIGHT
+			// Postions
+			oneRow[counter++] = 0.5f;	// x pos
+			oneRow[counter++] = 0.5f;	// y pos
+			oneRow[counter++] = 0.5f + 1;	// z pos
+
+			// colors
+			oneRow[counter++] = 1.0f,
+				oneRow[counter++] = 1.0f;
+			oneRow[counter++] = 0.0f;
+
+			// Tex Coords
+			oneRow[counter++] = 0.0f;
+			oneRow[counter++] = 1.0f;
+		}
+
+		// 4 draw calls + 30 from loop = 34
+		numDrawCalls += 30;
+		for (int i = 0; i < MAP_WIDTH * 1; i++) // width
 		{
 
+			if (up)
+			{
+				move++;
+			}
+			else
+			{
+				move--;
+			}
+
+			// BOTTOM RIGHT
+			// Postions
+			oneRow[counter++] = 0.5f + move + 1;	// x pos
+			oneRow[counter++] = 0.5f + terrain->getHeight(j, i);	// y pos
+			oneRow[counter++] = -0.5f + j;	// z pos
+
+			// colors
+			oneRow[counter++] = 0.0f,
+				oneRow[counter++] = 1.0f;
+			oneRow[counter++] = 0.0f;
+
+			// Tex Coords
+			oneRow[counter++] = 1.0f;
+			oneRow[counter++] = 0.0f;
+
+			// TOP RIGHT
+			// Postions
+			oneRow[counter++] = 0.5f + move + 1;// x pos
+			oneRow[counter++] = 0.5f + terrain->getHeight(j, i);	// y pos
+			oneRow[counter++] = 0.5f + j;	// z pos
+
+			// colors
+			oneRow[counter++] = 1.0f,
+				oneRow[counter++] = 1.0f;
+			oneRow[counter++] = 0.0f;
+
+			// Tex Coords
+			oneRow[counter++] = 0.0f;
+			oneRow[counter++] = 1.0f;
+		}
+	}
+
+
+	/*
+
+		for (int j = 0; j < 14; j++)
+		{
 			for (int i = 0; i < 15; i++) // width
 			{
+				oneRow[counter++] = -0.5f + i + 1;	// x pos
+				oneRow[counter++] = 0.5f + terrain->getHeight(j, i);	// y pos
+				oneRow[counter++] = -0.5f + j;	// z pos
+
+				// colors
+				oneRow[counter++] = 1.0f,
+				oneRow[counter++] = 0.0f;
+				oneRow[counter++] = 0.0f;
+
+				// Tex Coords
+				oneRow[counter++] = 1.0f;
+				oneRow[counter++] = 1.0f;
+
 				// BOTTOM RIGHT
 				// Postions
 				oneRow[counter++] = 0.5f + i + 1;	// x pos
 				oneRow[counter++] = 0.5f;	// y pos
-				oneRow[counter++] = -0.5f;	// z pos
+				oneRow[counter++] = -0.5f + j;	// z pos
 
 				// colors
 				oneRow[counter++] = 0.0f,
-					oneRow[counter++] = 1.0f;
+				oneRow[counter++] = 1.0f;
 				oneRow[counter++] = 0.0f;
 
 				// Tex Coords
 				oneRow[counter++] = 1.0f;
+				oneRow[counter++] = 0.0f;
+
+
+				// TOP LEFT
+				// Postions
+				oneRow[counter++] = -0.5f + i + 1;	// x pos
+				oneRow[counter++] = 0.5f;	// y pos
+				oneRow[counter++] = 0.5f + j;	// z pos
+
+				// colors
+				oneRow[counter++] = 0.0f,
+				oneRow[counter++] = 0.0f;
+				oneRow[counter++] = 1.0f;
+
+				// Tex Coords
+				oneRow[counter++] = 0.0f;
 				oneRow[counter++] = 0.0f;
 
 				// TOP RIGHT
 				// Postions
-				oneRow[counter++] = 0.5f + i + 1;// x pos
+				oneRow[counter++] = 0.5f + i + 1;	// x pos
 				oneRow[counter++] = 0.5f;	// y pos
-				oneRow[counter++] = 0.5f;	// z pos
+				oneRow[counter++] = 0.5f + j;	// z pos
 
 				// colors
 				oneRow[counter++] = 1.0f,
-					oneRow[counter++] = 1.0f;
+				oneRow[counter++] = 1.0f;
 				oneRow[counter++] = 0.0f;
 
 				// Tex Coords
 				oneRow[counter++] = 0.0f;
 				oneRow[counter++] = 1.0f;
 
-				/*
-				// bottom left			// Position    1
-				oneRow[t++] = -0.5f + i + 1;	// x
-				oneRow[t++] = 0.5f + terrain->getHeight(j, i);		// y
-				oneRow[t++] = -0.5f + j;	// z
 
-				// bottom right                       2
-				oneRow[t++] = 0.5f + i + 1;
-				oneRow[t++] = 0.5f;
-				oneRow[t++] = -0.5f + j;
 
-				// top left                           3
-				oneRow[t++] = -0.5f + i + 1;
-				oneRow[t++] = 0.5f;
-				oneRow[t++] = 0.5f + j;
-
-				// top right                        4
-				oneRow[t++] = 0.5f + i + 1;
-				oneRow[t++] = 0.5f;
-				oneRow[t++] = 0.5f + j;
-				*/
 			}
 		}
-	
+
+
+
+		*/
+
+
+
+	std::cout << "Num draw calls: " << numDrawCalls << std::endl;
 	std::cout << "Counter is: " << counter << std::endl;
 	int width = terrain->getMapWidth();
-
-
-
-
 
 
 	// GL LINE STRIP STUFF

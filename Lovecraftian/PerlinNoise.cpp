@@ -28,9 +28,13 @@ void PerlinNoise::perlin2D()
 	perlinNoise2D(nOutputWidth, nOutputHeight, fNoiseSeed2D, nOctaveCount, fScalingBias, fPerlinNoise2D);
 }
 
+// nWIdht and nHeight is Size of array
+// fSeed is just alot of random numbers
+// nOctaves is just the number of octaves we want to apply
+// fOutPut is the outputted array
 void PerlinNoise::perlinNoise2D(int nWidth, int nHeight, float* fSeed, int nOctaves, float fBias, float* fOutput)
 {
-	// Used 1D Perlin Noise
+	// operate on each element of the outputted array
 	for (int x = 0; x < nWidth; x++)
 		for (int y = 0; y < nHeight; y++)
 		{
@@ -40,6 +44,13 @@ void PerlinNoise::perlinNoise2D(int nWidth, int nHeight, float* fSeed, int nOcta
 
 			for (int o = 0; o < nOctaves; o++)
 			{
+
+				// for each octave we need two sample points that we can 
+				// linearly interpolate between. The distance between this 
+				// sample points its called the ptich
+
+				// if we make sure that the perlin noise is always inn the
+				// power of 2, we can always half our pitch easly.
 				int nPitch = nWidth >> o;
 				int nSampleX1 = (x / nPitch) * nPitch;
 				int nSampleY1 = (y / nPitch) * nPitch;

@@ -225,16 +225,7 @@ int main()
 
 	glm::vec3 trianglePos(1.0f, 1.0f, 1.0f);
 
-	// Display map in grid
-	for (int i = 0; i < heightMap->getMapHeight(); i++)
-	{
 
-		for (int j = 0; j < heightMap->getMapWidth(); j++)
-		{
-			std::cout << "[" << i << "]" << "[" << j << "]" << " = " << heightMap->getHeight(i, j);
-		}
-		std::cout << std::endl;
-	}
 
 	// GL_LINE_STRIP_STUFF
 	// Shader to render map floor
@@ -423,12 +414,20 @@ void processInput(GLFWwindow* window)
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		camera.ProcessKeyboard(FORWARD, deltaTime);
+
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		camera.ProcessKeyboard(BACKWARD, deltaTime);
+
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		camera.ProcessKeyboard(LEFT, deltaTime);
+
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(RIGHT, deltaTime);
+
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+	{
+		std::cout << "Switch Camera mode now " << std::endl;
+	}
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes

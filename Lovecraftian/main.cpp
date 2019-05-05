@@ -14,7 +14,7 @@
 #include "ImageTexture.h"
 #include "Skybox.h"
 #include "Floor.h"
-
+#include "PerlinNoise.h"
 
 #include <iostream>
 #include <fstream>
@@ -247,6 +247,13 @@ int main()
 
 	Model deer("res/model/deer.obj");
 	Shader deerShader("1.model_loading.vs", "1.model_loading.fs");
+
+	// PERLIN NOISE
+	// ------
+	PerlinNoise perlin;
+	perlin.perlin2D();
+
+
 
 	// render loop
 	// -----------

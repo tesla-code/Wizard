@@ -15,6 +15,7 @@
 #include "Skybox.h"
 #include "Floor.h"
 #include "PerlinNoise.h"
+#include "Map.h"
 
 #include <iostream>
 #include <fstream>
@@ -184,7 +185,7 @@ int main()
 	// Height Map
 	// Load Height Map
 	Terrain* heightMap = new Terrain();
-	//heightMap->loadHeightMap("res/map/test.png", png);
+	//heightMap->loadHeightMap("res/map/model2-low.png", png);
 	heightMap->loadHeightMap("res/map/map1.png", png);
 	heightMap->renderMap();
 
@@ -225,8 +226,6 @@ int main()
 
 	glm::vec3 trianglePos(1.0f, 1.0f, 1.0f);
 
-
-
 	// GL_LINE_STRIP_STUFF
 	// Shader to render map floor
 	Shader lineShader("vert_ground.glsl", "frag_ground.glsl");
@@ -244,7 +243,11 @@ int main()
 	PerlinNoise perlin;
 	perlin.perlin2D();
 
-
+	// Try To render Terrain
+	// ----------
+	Shader mapShader("vert_map.glsl", "frag_map.glsl");
+	Map map(heightMap);
+	map.initMap();
 
 	// render loop
 	// -----------
@@ -306,6 +309,13 @@ int main()
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
 
+
+
+
+
+		// #########################################
+		// #########################################
+		
 		// set value in shaders
 		groundShader.use();
 		groundShader.setMat4("projection", projection);
@@ -315,8 +325,7 @@ int main()
 		for (int i = 0; i < numGround; i++)
 		{
 			// floor.renderOnScreen(groundShader);
-			glActiveTexture(GL_TEXTURE0);
-			floor.render(groundShader, trianglePos, heightMap);
+			floor.render(groundShader, trianglePos, heightMap); // uten denne så forsviner model drawing for some weird reason
 
 		/*	groundShader.use();
 			glBindVertexArray(VAO_ground);
@@ -324,17 +333,23 @@ int main()
 		}
 
 		ourModel.Draw(objectShader);
-	
 		deer.Draw(deerShader);
 
 		lineShader.use();
 		lineShader.setMat4("projection", projection);
 		lineShader.setMat4("view", view);
 
-		floor.renderWithLineStrip(lineShader, groundTexture.getID());
+		// floor.renderWithLineStrip(lineShader, groundTexture.getID());
 
+
+		mapShader.use();
+		mapShader.setMat4("projection", projection);
+		mapShader.setMat4("view", view);
+		map.renderOnScreen(mapShader);
 	
-		
+		// #########################################
+		// #########################################
+
 		// bind textures on corresponding texture units
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture1.getID());

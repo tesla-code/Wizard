@@ -71,7 +71,6 @@ public:
 	float oneRow[3392]; // 3392
 
 
-
 public:
 	Floor();
 	void render(Shader 	groundShader, glm::vec3 i_worldPos, Terrain* terrain);

@@ -256,7 +256,7 @@ void Floor::initFloor(Terrain* terrain)
 
 			// colors
 			oneRow[counter++] = 1.0f,
-				oneRow[counter++] = 1.0f;
+			oneRow[counter++] = 1.0f;
 			oneRow[counter++] = 0.0f;
 
 			// Tex Coords

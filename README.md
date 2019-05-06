@@ -20,6 +20,8 @@ the function but it works at least</li>
   <li> Im rendering a skobox </li>
   <li> Rendering terrain using GL_TRIANGLE_STRIP, so all it is just one drawcall but all of the verticies has to be calculated
       before i draw inn the map constructor</li>
-  <li> Terrain has different colors based on height</li>
+  <li> Terrain has different colors based on height, also height is timed w scale. Height depends on image</li>
+  <li> Can move deer with wasd, remember to enable it in the imgui menu </li>
+  
   </ul>
 <br/>

@@ -14,60 +14,6 @@ Map::Map(Terrain* terrain)
 	int numDrawCalls = 0;
 	int size = 0;
 	int counter = 0;
-	/*
-	// width = 15,     15 * 2 draw calls   +  15 * 6 size?
-	bool up = true;
-	int move = 0;
-	for (int j = 0; j < 2; j++)
-	{
-		for (int i = 0; i < mapWidth; i++)
-		{
-			if (up)
-			{
-				// Top right + 1
-				firstSquare[counter++] = 0.5f + i;  // x
-				firstSquare[counter++] = 0.5f + terrain->getHeight(j, i);  // y
-				firstSquare[counter++] = -0.5f + j;  // z
-
-				// bottom right + 1
-				firstSquare[counter++] = 0.5f + i;  // x
-				firstSquare[counter++] = 0.5f + terrain->getHeight(j + 1, i); // y
-				firstSquare[counter++] = 0.5f + j;  // z
-
-				move++;
-			}
-			else
-			{
-				// bottom right + 1
-				firstSquare[counter++] = 0.5f + move - 1;  // x
-				firstSquare[counter++] = 0.5f + terrain->getHeight(j + 1, i); // y
-				firstSquare[counter++] = 0.5f + j;  // z
-
-				// Top right + 1
-				firstSquare[counter++] = 0.5f + move - 1;  // x
-				firstSquare[counter++] = 0.5f + terrain->getHeight(j, i);  // y
-				firstSquare[counter++] = -0.5f + j;  // z
-
-				move--;
-			}
-	
-			numDrawCalls += 2;
-			size += 6;
-		}
-
-		up = !up;
-	} */
-
-	/*
-	// bottom right + 1 Z (down)   14
-	firstSquare[counter++] = 0.5f + 14;  // x
-	firstSquare[counter++] = 0.5f + terrain->getHeight(2, 14); // y
-	firstSquare[counter++] = 0.5f + 1;  // z
-	size += 3;
-	numDrawCalls += 1;
-	*/
-
-	
 
 	counter = 0;
 	numDrawCalls = 0;
@@ -190,19 +136,6 @@ Map::Map(Terrain* terrain)
 		}
 
 	}
-	/*
-	int j = 1;
-	// Top right + 1
-	firstSquare[counter++] = 0.5f + (move - 1);  // x
-	firstSquare[counter++] = 0.5f + terrain->getHeight(0 + j, move - 1);  // y
-	firstSquare[counter++] = -0.5f + 0;  // z */
-
-	/*
-	// bottom right
-	firstSquare[counter++] = 0.5f + (move - 1);  // x
-	firstSquare[counter++] = 0.5f + terrain->getHeight(1 + j, move - 1); // y
-	firstSquare[counter++] = 0.5f + j;  // z */
-
 
 
 	unsigned int VBO_map = 0;

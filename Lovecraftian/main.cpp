@@ -311,6 +311,9 @@ int main()
 				moveDeer = !moveDeer;
 			}
 
+			int display_count = 1;
+			ImGui::SliderInt("Scale Deer", &display_count, 1, 400);
+			
 
 			ImGui::SameLine();
 			ImGui::End();

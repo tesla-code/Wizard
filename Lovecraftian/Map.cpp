@@ -15,6 +15,8 @@ Map::Map(Terrain* terrain)
 	int size = 0;
 	int counter = 0;
 
+	
+
 	counter = 0;
 	numDrawCalls = 0;
 	size = 0;
@@ -51,8 +53,6 @@ Map::Map(Terrain* terrain)
 				firstSquare[counter++] = 1.0f;
 			}
 	
-
-
 			// bottom left
 			firstSquare[counter++] = -0.5f + i;  // x
 			firstSquare[counter++] = 0.5f + terrain->getHeight(j + 1, i) * scale;  // y
@@ -136,6 +136,19 @@ Map::Map(Terrain* terrain)
 		}
 
 	}
+	/*
+	int j = 1;
+	// Top right + 1
+	firstSquare[counter++] = 0.5f + (move - 1);  // x
+	firstSquare[counter++] = 0.5f + terrain->getHeight(0 + j, move - 1);  // y
+	firstSquare[counter++] = -0.5f + 0;  // z */
+
+	/*
+	// bottom right
+	firstSquare[counter++] = 0.5f + (move - 1);  // x
+	firstSquare[counter++] = 0.5f + terrain->getHeight(1 + j, move - 1); // y
+	firstSquare[counter++] = 0.5f + j;  // z */
+
 
 
 	unsigned int VBO_map = 0;

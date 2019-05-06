@@ -35,6 +35,7 @@ public:
 		 0.5f,  0.5f, 0.5f,   // top right */
 	};
 
+
 public:
 	Map(Terrain* terrain);
 	void renderOnScreen(Shader mapShader);

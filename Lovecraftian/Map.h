@@ -8,6 +8,11 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Terrain.h"
+// Based on height values use different colors/textures
+enum BIOME
+{
+	WATER, GRASS, DIRT, MOUNTAIN
+};
 
 class Map
 {
@@ -22,7 +27,7 @@ public:
 						// mapWidth * 6
 	 //            (16 * 6)
 	//                      pos size       color size
-	float firstSquare[((15 * 12) * (13)) ] =
+	float firstSquare[((15 * 12) * (13)) *   12 ] =
 	{
 	/*	-0.5f,  0.5f, -0.5f,  // bottom left		
 		 0.5f, 0.5f, -0.5f,   // bottom right

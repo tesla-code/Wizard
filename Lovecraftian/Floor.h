@@ -12,12 +12,6 @@
 
 #include "ImageTexture.h"
 
-// Based on height values use different colors/textures
-enum BIOME
-{
-	WATER, GRASS, DIRT, MOUNTAIN
-};
-
 
 const int MAP_WIDTH = 15;
 const int MAP_HEIGHT = 14;

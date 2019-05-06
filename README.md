@@ -4,6 +4,7 @@
 GLM <br />
 GLFW <br />
 GLEW <br />
+ASSIMP <br />
 stb image (header only lib to load images for textures) <br />
 
 <h1> Features  </h1>

@@ -52,6 +52,9 @@ float lastFrame = 0.0f;
 
 bool DrawLines = false;
 
+bool moveDeer = false;
+glm::mat4 ModelMatrix(1.f);
+
 int main()
 {
 	// glfw: initialize and configure
@@ -249,6 +252,17 @@ int main()
 	Map map(heightMap);
 	map.initMap();
 
+
+	// Move the deer
+	// right to left, so scale is frist  then roatate, then translate.
+	ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0.f));
+	ModelMatrix = glm::rotate(ModelMatrix, glm::radians(0.f), glm::vec3(1.f, 0.f,0.f) );
+	ModelMatrix = glm::rotate(ModelMatrix, glm::radians(0.f), glm::vec3(0.f, 1.f, 0.f));
+	ModelMatrix = glm::rotate(ModelMatrix, glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f));
+	ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.0f));
+
+
+
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
@@ -292,6 +306,12 @@ int main()
 				}
 			}
 
+			if (ImGui::Button("Move Deer"))
+			{
+				moveDeer = !moveDeer;
+			}
+
+
 			ImGui::SameLine();
 			ImGui::End();
 		}
@@ -308,7 +328,6 @@ int main()
 		// ------  (MAP)
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
-
 
 
 
@@ -333,6 +352,8 @@ int main()
 		}
 
 		ourModel.Draw(objectShader);
+
+		deerShader.setMat4("ModelMatrix", ModelMatrix);
 		deer.Draw(deerShader);
 
 		lineShader.use();
@@ -428,16 +449,48 @@ void processInput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, true);
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+	{
 		camera.ProcessKeyboard(FORWARD, deltaTime);
 
+		if (moveDeer)
+		{
+
+			ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0.f, 0.f, 1.0f));
+		}
+	}
+
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	{
+
 		camera.ProcessKeyboard(BACKWARD, deltaTime);
 
+		if (moveDeer)
+		{
+			ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0.f, 0.f, -1.0f));
+		}
+	}
+
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+	{
 		camera.ProcessKeyboard(LEFT, deltaTime);
+		if (moveDeer)
+		{
+			ModelMatrix = glm::translate(ModelMatrix, glm::vec3(-1.f, 0.f, 0.0f));
+		}
+	}
 
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	{
+		
 		camera.ProcessKeyboard(RIGHT, deltaTime);
+		if (moveDeer)
+		{
+			ModelMatrix = glm::translate(ModelMatrix, glm::vec3(1.f, 0.f, 0.0f));
+		}
+	}
+
+
+
 
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
 	{

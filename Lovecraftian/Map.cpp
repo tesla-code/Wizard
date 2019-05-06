@@ -234,7 +234,6 @@ void Map::initMap()
 
 void Map::renderOnScreen(Shader mapShader)
 {
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
 	model = glm::translate(model, glm::vec3(0, -10, 0));
@@ -247,6 +246,5 @@ void Map::renderOnScreen(Shader mapShader)
 	// GL_TRIANGLE_STIP
 	glDrawArrays(GL_TRIANGLE_STRIP_ADJACENCY, 0, (4*14) * 13 );
 	
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 }

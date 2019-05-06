@@ -15,6 +15,9 @@ the function but it works at least</li>
   
   <li> camera that can zoom with mouse wheel (mostly from the frame work off assigntment 2) </li>
   <li> Can read inn grey scale heigt maps and generate correct normalized values, but for some reason my program
-  crashes if I load inn the big sample files so for now it's just using a small test file that is 15x 14
+  crashes if I load inn the big sample files so for now it's just using a small test file that is 15x 14 </li>
+  <li> Im rendering a skobox </li>
+  <li> Rendering terrain using GL_TRIANGLE_STRIP, so all it is just one drawcall but all of the verticies has to be calculated
+      before i draw inn the map constructor</li>
   </ul>
 <br/>
